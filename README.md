@@ -1,273 +1,267 @@
-🧠 Triage Dashboard – 24H Engineering Challenge
+# 🧠 Triage Dashboard -- 24H Engineering Challenge
 
-A production-style Customer Support Triage Dashboard built with Next.js (App Router), TypeScript, and Tailwind CSS.
+A **production-style Customer Support Triage Dashboard** built with\
+**Next.js (App Router) · TypeScript · Tailwind CSS**.
 
-This tool is designed to help a support lead quickly assess incoming tickets by:
+This tool enables support leads to:
 
-Structuring unorganized messages
+-   🗂 Structure unorganized inbound messages\
+-   🏷 Classify issue types\
+-   ⚡ Prioritize urgency\
+-   📊 View actionable summary insights
 
-Classifying issue types
+> ⏱ Completed within a strict 24-hour engineering constraint.
 
-Prioritizing urgency
+------------------------------------------------------------------------
 
-Providing actionable summary metrics
+# 🔗 Live & Repository
 
-The project was completed within a strict 24-hour time constraint.
+**🌐 Live Deployment:**\
+https://triage-dashboard-24h-challenge.netlify.app/
 
-🔗 Live & Repository
+**📦 GitHub Repository:**\
+https://github.com/zakirhasan736/triage-dashboard-24h-challenge
 
-Live Deployment: <your-vercel-link>
-Repository: https://github.com/zakirhasan736/triage-dashboard-24h-challenge
+------------------------------------------------------------------------
 
-🎯 Problem Framing
+# 🎯 Problem Framing
 
-Support teams often begin their day with unstructured inbound messages.
-The goal of this exercise was to design a lightweight internal tool that:
+Support teams typically begin their day with **unstructured inbound
+requests**.
 
-Converts raw messages into structured insight
+The objective of this challenge was to design a lightweight internal
+tool that:
 
-Surfaces urgency clearly
+-   Converts raw text into structured insight\
+-   Surfaces urgency clearly\
+-   Enables fast filtering & decision-making\
+-   Ships within 24 hours without over-engineering
 
-Enables fast filtering and decision-making
+The emphasis was on **clarity, explainability, usability, and execution
+speed** --- not infrastructure complexity.
 
-Remains simple enough to ship in 24 hours
+------------------------------------------------------------------------
 
-The emphasis was on clarity, explainability, and usability, not infrastructure complexity.
+# 🏗 Architecture & Design Decisions
 
-🏗 Architecture & Design Decisions
-Why Next.js (Frontend-Only)?
+## Why Next.js (Frontend-Only)?
 
-Minimal infrastructure overhead
+-   Minimal infrastructure overhead\
+-   Clean routing & layout separation\
+-   First-class TypeScript support\
+-   Simple deployment (Vercel / Netlify)
 
-Clean routing & layout separation
+A backend/database was intentionally excluded to prioritize product
+logic and rapid delivery.
 
-First-class TypeScript support
+------------------------------------------------------------------------
 
-Easy deployment via Vercel
+## 📁 High-Level Architecture
 
-A backend/database was intentionally excluded to maintain focus on product logic and execution speed.
+/app → Routing & layout (Next.js App Router)\
+/components → UI building blocks\
+/hooks → Business logic & centralized state\
+/icons → Reusable SVG components\
+/services → AI classification integration\
+/types → Domain models\
+/constants.ts → Shared configuration
 
-High-Level Architecture
-/app            → Routing & layout (Next.js App Router)
-/components     → UI building blocks
-/hooks          → Business logic & centralized state
-/icons          → Reusable SVG components
-/services       → AI classification integration
-/types          → Domain models
-/constants.ts   → Shared configuration
+------------------------------------------------------------------------
 
-Key Design Principles
+## 🧩 Core Design Principles
 
-Separation of concerns
+-   Separation of concerns\
+-   Centralized ticket state management\
+-   Deterministic fallback logic\
+-   Explainable prioritization rules\
+-   Extensibility without over-engineering
 
-Centralized ticket state management
+------------------------------------------------------------------------
 
-Deterministic fallback logic
+# 🧠 Classification & Prioritization Strategy
 
-Explainable prioritization rules
+The system uses a **Hybrid Intelligence Model** balancing flexibility
+and reliability.
 
-Extensibility without over-engineering
+------------------------------------------------------------------------
 
-🧠 Classification & Prioritization Strategy
-
-The system uses a hybrid intelligence model to balance reliability and flexibility.
-
-Primary Mode: AI-Assisted Classification (Gemini 1.5 Flash)
+## 🤖 Primary Mode --- AI-Assisted Classification (Gemini 1.5 Flash)
 
 When an API key is available:
 
-Structured prompt defines fixed categories:
+-   Structured prompt defines fixed categories:
+    -   Bug
+    -   Billing
+    -   Feature Request
+    -   Account
+    -   General
+-   Fixed priority levels:
+    -   High
+    -   Medium
+    -   Low
+-   Strict JSON schema enforcement\
+-   Confidence score returned (0.0--1.0)
 
-Bug
+### Why This Matters
 
-Billing
+-   Controlled output structure\
+-   Reduced parsing risk\
+-   Measurable classification confidence
 
-Feature Request
+------------------------------------------------------------------------
 
-Account
+## 🛠 Fallback Mode --- Deterministic Rule Engine
 
-General
+If AI is unavailable, a keyword-based classifier is used.
 
-Fixed priority levels:
+### 📂 Category Mapping
 
-High
+  Keywords                    Category
+  --------------------------- -----------------
+  invoice, charged, payment   Billing
+  crash, error, broken        Bug
+  add, support, integration   Feature Request
+  login, password, access     Account
+  Otherwise                   General
 
-Medium
+### ⚡ Priority Heuristics
 
-Low
+**High Impact Signals** - crash\
+- cannot\
+- charged twice\
+- payment failed\
+- urgent\
+- broken
 
-Strict JSON schema enforcement
+**Medium Impact Signals** - slow\
+- error\
+- wrong\
+- not working
 
-Model returns confidence score (0.0–1.0)
+Fallback classifications are marked with **confidence = 0.0** to clearly
+distinguish heuristic results.
 
-This approach ensures:
+------------------------------------------------------------------------
 
-Controlled output structure
+# 📊 Product Features
 
-Reduced parsing risk
+## 1️⃣ Summary Intelligence Layer
 
-Measurable classification confidence
+-   Total ticket count\
+-   Category distribution\
+-   Priority distribution\
+-   High-priority open count
 
-Fallback Mode: Deterministic Rule Engine
+Designed for decision-making in **under 10 seconds**.
 
-If AI is unavailable, the system falls back to a keyword-based classifier.
+------------------------------------------------------------------------
 
-Category Mapping
-Keywords	Category
-invoice, charged, payment	Billing
-crash, error, broken	Bug
-add, support, integration	Feature Request
-login, password, access	Account
-Otherwise	General
-Priority Heuristics
+## 2️⃣ Interactive Ticket Management
 
-High Impact Signals
+-   Category & priority badges\
+-   Status toggle (Open / Resolved)\
+-   Filtering (Category / Priority / Status)\
+-   Search capability\
+-   Sorting (Urgency-first by default)\
+-   Inline editing & assignment
 
-crash
+High-priority tickets are visually differentiated to reduce cognitive
+load.
 
-cannot
+------------------------------------------------------------------------
 
-charged twice
+# 🔄 State Management Approach
 
-payment failed
+A custom `useTicketManagement` hook centralizes:
 
-urgent
+-   Ticket lifecycle management\
+-   Filtering logic\
+-   Sorting logic\
+-   Status updates\
+-   AI integration
 
-broken
+This avoids prop-drilling and keeps components declarative and
+predictable.
 
-Medium Impact Signals
+Data flow remains **unidirectional and deterministic**.
 
-slow
+------------------------------------------------------------------------
 
-error
+# ⏱ 24-Hour Execution Breakdown
 
-wrong
-
-not working
-
-All fallback classifications are marked with confidence 0.0 to clearly distinguish heuristic decisions.
-
-📊 Product Features
-1. Summary Intelligence Layer
-
-Total tickets
-
-Category distribution
-
-Priority distribution
-
-High-priority open count
-
-Designed to allow decision-making in under 10 seconds.
-
-2. Interactive Ticket Management
-
-Category + priority badges
-
-Status toggling (Open / Resolved)
-
-Filtering (Category / Priority / Status)
-
-Search capability
-
-Sorting (urgency-first by default)
-
-Inline editing & assignment
-
-High-priority tickets are visually differentiated to reduce cognitive load.
-
-🔄 State Management Approach
-
-A custom useTicketManagement hook centralizes:
-
-Ticket lifecycle management
-
-Filtering logic
-
-Sorting logic
-
-Status updates
-
-AI integration
-
-This avoids prop-drilling and keeps UI components declarative and predictable.
-
-Data flow remains unidirectional and deterministic.
-
-⏱ 24-Hour Execution Breakdown
-Hours 0–2
-
+**Hours 0--2**\
 Architecture planning & domain modeling
 
-Hours 3–8
+**Hours 3--8**\
+Core layout & ticket state implementation
 
-Core layout + ticket state implementation
+**Hours 9--12**\
+Filtering system & prioritization logic
 
-Hours 9–12
+**Hours 13--15**\
+UI polish & urgency visibility refinement
 
-Filtering system + prioritization logic
-
-Hours 13–15
-
-UI polish + priority visibility refinement
-
-Hours 16–18
-
+**Hours 16--18**\
 Documentation & structural refactoring
 
-Hours 19–22
-
+**Hours 19--22**\
 Deployment & environment validation
 
-Hours 23–24
-
+**Hours 23--24**\
 Final cleanup & consistency review
 
-🚀 Running the Project
-Install dependencies
+------------------------------------------------------------------------
+
+# 🚀 Running the Project
+
+## Install Dependencies
+
+``` bash
 npm install
+```
 
-Optional AI Setup
+## Optional AI Setup
 
-Create .env.local:
+Create `.env.local`:
 
+``` env
 NEXT_PUBLIC_API_KEY=your_google_genai_api_key
-
+```
 
 If omitted, the rule-based engine is used automatically.
 
-Start development server
-npm run dev
+## Start Development Server
 
+``` bash
+npm run dev
+```
 
 Visit:
 
 http://localhost:3000
 
-🔮 If Given More Time
+------------------------------------------------------------------------
 
-Persistent storage (PostgreSQL / Supabase)
+# 🔮 If Given More Time
 
-SLA tracking and breach alerts
+-   Persistent storage (PostgreSQL / Supabase)\
+-   SLA tracking & breach alerts\
+-   Real-time multi-agent collaboration\
+-   RAG-based response suggestions\
+-   Historical trend analytics\
+-   Role-based authentication
 
-Real-time multi-agent collaboration
+The current architecture supports these extensions without structural
+redesign.
 
-RAG-based response suggestions
+------------------------------------------------------------------------
 
-Historical trend analytics
+# 🧩 Tradeoffs & Constraints
 
-Role-based authentication
+-   No backend persistence (intentional for speed)\
+-   AI classification optional\
+-   Static dataset for demonstration\
+-   Focused on decision-support rather than full CRM scope
 
-The current architecture was intentionally designed to accommodate these expansions without structural changes.
-
-🧩 Tradeoffs & Constraints
-
-No backend persistence (intentionally omitted for speed)
-
-AI classification remains optional
-
-Static dataset for demonstration purposes
-
-Focused on clarity and decision-support rather than full CRM functionality
-
-The goal was to ship a thoughtful, structured solution within 24 hours — not to over-engineer.
+The objective was to ship a thoughtful, structured solution within 24
+hours --- **without over-engineering**.
