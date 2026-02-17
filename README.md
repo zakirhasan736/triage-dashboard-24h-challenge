@@ -254,14 +254,3 @@ http://localhost:3000
 The current architecture supports these extensions without structural
 redesign.
 
-------------------------------------------------------------------------
-
-# 🧩 Tradeoffs & Constraints
-
--   No backend persistence (intentional for speed)\
--   AI classification optional\
--   Static dataset for demonstration\
--   Focused on decision-support rather than full CRM scope
-
-The objective was to ship a thoughtful, structured solution within 24
-hours --- **without over-engineering**.
