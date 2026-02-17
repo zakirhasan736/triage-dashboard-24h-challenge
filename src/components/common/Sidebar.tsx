@@ -31,7 +31,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, isO
       <aside className={`
         fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 text-slate-300 border-r border-slate-800 flex flex-col transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        md:translate-x-0 md:static
+        md:translate-x-0 lg:static 
         /* Layout Fix: In desktop, it is static in the flex container, filtering height */
         md:h-full md:flex-shrink-0
       `}>
