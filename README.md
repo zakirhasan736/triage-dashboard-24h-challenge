@@ -1,130 +1,127 @@
-Triage Dashboard – Intelligent Customer Support Dashboard
+🧠 Triage Dashboard – 24H Engineering Challenge
 
-A lightweight, intelligent customer support triage dashboard built with Next.js.
-The system automatically categorizes and prioritizes incoming customer support messages to help support leads quickly understand what issues exist, how urgent they are, and how many of each type need attention.
+A production-style Customer Support Triage Dashboard built with Next.js (App Router), TypeScript, and Tailwind CSS.
 
-This project was completed as part of a 24-hour build challenge.
+This tool is designed to help a support lead quickly assess incoming tickets by:
 
-🌐 Live Demo
+Structuring unorganized messages
 
-Deployed App: <your-deployment-link>
-Repository: (https://github.com/zakirhasan736/triage-dashboard-24h-challenge)
+Classifying issue types
 
-🚀 How to Run the Project
-1. Prerequisites
+Prioritizing urgency
 
-Node.js (v16+ recommended)
+Providing actionable summary metrics
 
-npm or yarn
+The project was completed within a strict 24-hour time constraint.
 
-2. Install Dependencies
-npm install
+🔗 Live & Repository
 
-3. Setup API Key (Optional – AI Mode)
+Live Deployment: <your-vercel-link>
+Repository: https://github.com/zakirhasan736/triage-dashboard-24h-challenge
 
-Create a .env.local file in the root directory:
+🎯 Problem Framing
 
-API_KEY=your_google_genai_api_key
+Support teams often begin their day with unstructured inbound messages.
+The goal of this exercise was to design a lightweight internal tool that:
 
+Converts raw messages into structured insight
 
-Note:
+Surfaces urgency clearly
 
-If no API key is provided, the application will automatically fall back to a deterministic keyword-based classification engine.
+Enables fast filtering and decision-making
 
-This ensures the dashboard remains fully functional even without AI integration.
+Remains simple enough to ship in 24 hours
 
-4. Run Development Server
-npm run dev
+The emphasis was on clarity, explainability, and usability, not infrastructure complexity.
 
-5. Open in Browser
-http://localhost:3000
+🏗 Architecture & Design Decisions
+Why Next.js (Frontend-Only)?
 
-🏗️ Overall Approach
+Minimal infrastructure overhead
 
-The goal was to design a lightweight internal triage tool that a support lead could use at the start of their day.
+Clean routing & layout separation
 
-Key principles:
+First-class TypeScript support
 
-Keep infrastructure minimal (no backend required)
+Easy deployment via Vercel
 
-Prioritize clarity and usability
+A backend/database was intentionally excluded to maintain focus on product logic and execution speed.
 
-Ensure categorization logic is explainable
+High-Level Architecture
+/app            → Routing & layout (Next.js App Router)
+/components     → UI building blocks
+/hooks          → Business logic & centralized state
+/icons          → Reusable SVG components
+/services       → AI classification integration
+/types          → Domain models
+/constants.ts   → Shared configuration
 
-Provide fast filtering and summary metrics
+Key Design Principles
 
-Design for extensibility
-
-Architecture Overview
-
-Next.js frontend-only architecture
-
-Hardcoded dataset (15–20 support messages)
-
-Rule-based and AI hybrid classification
+Separation of concerns
 
 Centralized ticket state management
 
-Clean separation of concerns:
+Deterministic fallback logic
 
-components/   → UI building blocks
-hooks/        → Business logic and ticket management
-services/     → AI integration
-lib/          → Classification logic
-data/         → Static ticket dataset
+Explainable prioritization rules
 
-Data Flow
+Extensibility without over-engineering
 
-The application uses a unidirectional data flow:
+🧠 Classification & Prioritization Strategy
 
-Tickets are loaded from a static dataset.
+The system uses a hybrid intelligence model to balance reliability and flexibility.
 
-The classification engine assigns category and priority.
-
-State is managed centrally (via custom hook).
-
-UI reacts to filtered/sorted state.
-
-🧠 Categorisation & Prioritisation Logic
-
-The system uses a Hybrid Intelligence Model:
-
-1️⃣ Primary Mode: Generative AI (Gemini 1.5 Flash)
+Primary Mode: AI-Assisted Classification (Gemini 1.5 Flash)
 
 When an API key is available:
 
-A structured prompt defines:
+Structured prompt defines fixed categories:
 
-Categories: Bug, Billing, Feature Request, Account, General
+Bug
 
-Priorities: High, Medium, Low
+Billing
 
-The AI is instructed to return strictly formatted JSON.
+Feature Request
 
-A confidence score (0.0–1.0) is requested from the model.
+Account
 
-This ensures:
+General
 
-Consistent outputs
+Fixed priority levels:
 
-Safe parsing
+High
 
-Controlled schema structure
+Medium
 
-2️⃣ Fallback Mode: Deterministic Rule Engine
+Low
 
-If AI is unavailable, the system uses a keyword-based engine.
+Strict JSON schema enforcement
 
-Category Assignment Examples
+Model returns confidence score (0.0–1.0)
+
+This approach ensures:
+
+Controlled output structure
+
+Reduced parsing risk
+
+Measurable classification confidence
+
+Fallback Mode: Deterministic Rule Engine
+
+If AI is unavailable, the system falls back to a keyword-based classifier.
+
+Category Mapping
 Keywords	Category
 invoice, charged, payment	Billing
 crash, error, broken	Bug
-add, support for, integration	Feature Request
+add, support, integration	Feature Request
 login, password, access	Account
 Otherwise	General
-Priority Assignment Examples
+Priority Heuristics
 
-High Priority
+High Impact Signals
 
 crash
 
@@ -138,7 +135,7 @@ urgent
 
 broken
 
-Medium Priority
+Medium Impact Signals
 
 slow
 
@@ -148,130 +145,129 @@ wrong
 
 not working
 
-Low Priority
+All fallback classifications are marked with confidence 0.0 to clearly distinguish heuristic decisions.
 
-Feature requests
+📊 Product Features
+1. Summary Intelligence Layer
 
-General inquiries
+Total tickets
 
-Fallback classifications are marked with confidence 0.0 to indicate heuristic matching.
+Category distribution
 
-📊 Dashboard Features
-Summary View
+Priority distribution
 
-Total message count
+High-priority open count
 
-Count per category
+Designed to allow decision-making in under 10 seconds.
 
-Count per priority
+2. Interactive Ticket Management
 
-High-priority indicator
+Category + priority badges
 
-Ticket Table
+Status toggling (Open / Resolved)
 
-Message snippet
+Filtering (Category / Priority / Status)
 
-Category badge
+Search capability
 
-Priority badge (color-coded)
+Sorting (urgency-first by default)
 
-Status (Resolved / Open)
+Inline editing & assignment
 
-Filtering
+High-priority tickets are visually differentiated to reduce cognitive load.
 
-Filter by Category
+🔄 State Management Approach
 
-Filter by Priority
+A custom useTicketManagement hook centralizes:
 
-Toggle resolved messages
+Ticket lifecycle management
 
-UX Details
+Filtering logic
 
-High-priority tickets visually highlighted
+Sorting logic
 
-Sorted by priority (High → Low) by default
+Status updates
 
-Clean, high-density layout inspired by professional tools like Jira and Linear
+AI integration
 
-⏱ 24-Hour Execution Plan
+This avoids prop-drilling and keeps UI components declarative and predictable.
 
-This project was completed within a strict 24-hour time constraint.
+Data flow remains unidirectional and deterministic.
 
+⏱ 24-Hour Execution Breakdown
 Hours 0–2
 
-Design + architecture decisions
-Defined data model, categorization approach, and UI layout.
+Architecture planning & domain modeling
 
 Hours 3–8
 
-Build core UI + logic
-Implemented dashboard layout, ticket rendering, and state management.
+Core layout + ticket state implementation
 
 Hours 9–12
 
-Filtering + priority logic
-Added rule engine, AI integration, filtering, and sorting.
+Filtering system + prioritization logic
 
 Hours 13–15
 
-Polish UI
-Improved visual hierarchy, badge styling, and high-priority indicators.
+UI polish + priority visibility refinement
 
 Hours 16–18
 
-Write README
-Documented architecture, logic decisions, and future improvements.
+Documentation & structural refactoring
 
 Hours 19–22
 
-Deploy + bug fixes
-Deployed to Vercel and handled environment edge cases.
+Deployment & environment validation
 
 Hours 23–24
 
-Final polish
-Refactoring, UI cleanup, final testing, and review.
+Final cleanup & consistency review
 
-🔮 Future Improvements
+🚀 Running the Project
+Install dependencies
+npm install
 
-If given more time, I would focus on:
+Optional AI Setup
 
-1️⃣ Persistence
+Create .env.local:
 
-Replace in-memory state with a backend (PostgreSQL / Supabase).
+NEXT_PUBLIC_API_KEY=your_google_genai_api_key
 
-2️⃣ SLA Tracking
 
-Add response-time indicators and breach alerts.
+If omitted, the rule-based engine is used automatically.
 
-3️⃣ Real-Time Updates
+Start development server
+npm run dev
 
-Use WebSockets to allow multi-agent collaboration.
 
-4️⃣ RAG-Based AI Assistance
+Visit:
 
-Provide suggested replies to support agents using documentation and past tickets.
+http://localhost:3000
 
-5️⃣ Analytics
+🔮 If Given More Time
 
-Add trend charts showing issue categories over time.
+Persistent storage (PostgreSQL / Supabase)
 
-6️⃣ Authentication
+SLA tracking and breach alerts
 
-Track which agent resolves each ticket.
+Real-time multi-agent collaboration
 
-🎯 Final Notes
+RAG-based response suggestions
 
-This dashboard was designed to simulate a practical internal triage tool with:
+Historical trend analytics
 
-Clear categorization logic
+Role-based authentication
 
-Explainable prioritization
+The current architecture was intentionally designed to accommodate these expansions without structural changes.
 
-Fast overview metrics
+🧩 Tradeoffs & Constraints
 
-Minimal infrastructure complexity
+No backend persistence (intentionally omitted for speed)
 
-Production-style UI clarity
+AI classification remains optional
 
-The focus was on shipping a usable, well-structured solution within 24 hours while leaving room for intelligent expansion.
+Static dataset for demonstration purposes
+
+Focused on clarity and decision-support rather than full CRM functionality
+
+The goal was to ship a thoughtful, structured solution within 24 hours — not to over-engineer.
